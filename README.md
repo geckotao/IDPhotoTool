@@ -19,3 +19,5 @@ pip install -r requirements.txt
 打包成EXE
 
 PyInstaller -F -w   --icon=IDPhotoTool.ico  --add-data "IDPhotoTool.ico:."  --name="IDPhotoTool"   app.py
+
+制作目的：用来批量处理生成符合学籍系统规格的相片
