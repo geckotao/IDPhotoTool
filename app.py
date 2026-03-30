@@ -17,7 +17,7 @@ from PyQt6.QtWidgets import (
 from PyQt6.QtGui import QPixmap, QImage, QColor, QFont, QCursor, QWheelEvent, QMouseEvent, QPainter, QPen
 from PyQt6.QtCore import Qt, QThread, pyqtSignal, QPointF
 
-# ========== 0. 基础配置与环境 ==========
+# ========== 基础配置与环境 ==========
 def get_base_path():
     """
     获取基础路径。
@@ -216,15 +216,12 @@ def create_face_detector():
         nms_threshold=FACE_DETECTION_CONFIG["nms_threshold"]
     )
 
-# ========== 4. 智能构图 ==========
+# ========== 智能构图 ==========
 def intelligent_crop_id_photo(image, target_width, target_height,
                               face_detector=None, face_params=None,
                               manual_offset_x=0, manual_offset_y=0, manual_scale=1.0,
                               face_rotate_angle=0):
-    """
-    智能裁剪证件照，支持人脸旋转角度参数
-    🔧 修复：旋转校正应在裁剪之前应用（先旋转→重新检测→再裁剪）
-    """
+
     default_face_params = {
         "eye_line_ratio": 0.45,
         "head_top_margin_ratio": 0.15,
@@ -232,9 +229,7 @@ def intelligent_crop_id_photo(image, target_width, target_height,
     }
     if face_params is None:
         face_params = default_face_params
-    
-    img_height, img_width = image.shape[:2]
-    
+
     # 先检测人脸，获取原始人脸信息
     face_info = None
     if face_detector is not None:
@@ -283,8 +278,8 @@ def intelligent_crop_id_photo(image, target_width, target_height,
         crop_center_x = face_center_x
         crop_center_y = crop_y1 + crop_height // 2
         crop_x1 = max(0, crop_center_x - crop_width // 2)
-        crop_x2 = min(processed_image.shape[1], crop_x1 + crop_width)  # 🔧 使用旋转后图像宽度
-        crop_y2 = min(processed_image.shape[0], crop_y1 + crop_height)  # 🔧 使用旋转后图像高度
+        crop_x2 = min(processed_image.shape[1], crop_x1 + crop_width)  # 使用旋转后图像宽度
+        crop_y2 = min(processed_image.shape[0], crop_y1 + crop_height)  # 使用旋转后图像高度
         
         if crop_x2 - crop_x1 < crop_width:
             crop_x1 = max(0, crop_x2 - crop_width)
@@ -1102,7 +1097,7 @@ class HivisionIDPhotoGUI(QMainWindow):
         self.manual_offset_x = 0
         self.manual_offset_y = 0
         self.manual_scale = 1.0
-        self.face_rotate_angle = 0  # 🔧 新增：保存旋转角度
+        self.face_rotate_angle = 0  
         self.batch_file_paths = []
         self.init_ui()
 
