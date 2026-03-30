@@ -1,6 +1,6 @@
 # IDPhotoTool   证件照生成工具
 
-让AI参考HivisionIDPhotos写的GUI程序，我只是移除部份功能并调试
+让AI参考HivisionIDPhotos写的GUI程序，我只是移除修改部份功能并调试
 
 Python 3.11.9版本
 
